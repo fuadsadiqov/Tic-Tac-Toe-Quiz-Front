@@ -1,0 +1,7 @@
+<h2>Admin Login</h2>
+<form (ngSubmit)="onSubmit()" [formGroup]="forms" class="grid gap-2 max-w-sm">
+    <input formControlName="username" name="username" placeholder="Username" required />
+    <input formControlName="password" name="password" placeholder="Password" type="password" required />
+    <button type="submit">Login</button>
+    <!-- <p *ngIf="error()" class="text-red-600">{{ error() }}</p> -->
+</form>
