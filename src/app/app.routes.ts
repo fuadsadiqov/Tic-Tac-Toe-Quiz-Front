@@ -3,19 +3,22 @@ import { ClientComponent } from './views/client/client.component';
 import { clientRoutes } from './views/client/client.routes';
 import { adminRoutes } from './views/admin/admin.routes';
 import { authRoutes } from './views/auth/auth.routes';
+import { AdminGuard } from '../core/guards/admin.guard';
 
 export const routes: Routes = [
     {
         path: '',
         children: [
             ...clientRoutes
-        ]
+        ],
     },
     {
         path: 'admin',
         children: [
             ...adminRoutes
-        ]
+        ],
+        canActivate: [AdminGuard],
+        canActivateChild: [AdminGuard],
     },
     {
         path: 'auth',

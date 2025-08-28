@@ -1,24 +1,32 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthStore } from '../auth/auth.store';
+import { catchError, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const store = inject(AuthStore);
+  const toastr = inject(ToastrService);
 
-  return next(req).pipe({
-    error: (err: any) => {
+  return next(req).pipe(
+    catchError((err: any) => {
       if (err instanceof HttpErrorResponse) {
-        if (err.status === 401) {
-          store.logout();
-        }
-        if (err.status === 403) {
-          alert('Sizin bu əməliyyata icazəniz yoxdur!');
-        }
-        if (err.status >= 500) {
-          console.error('Server Error:', err.message);
+        // Custom messages based on status
+        if (err.status === 0) {
+          toastr.error('Server is unreachable. Please try again later.');
+        } else if (err.status === 401) {
+          toastr.warning(err.error?.message);
+        } else if (err.status === 403) {
+          toastr.error('You do not have permission for this action.');
+        } else if (err.status >= 500) {
+          toastr.error('Server error: ' + err.message);
+        } else {
+          const message = err.error?.message || 'Unexpected error occurred';
+          toastr.error(message, `Error ${err.status}`);
         }
       }
-      throw err;
-    }
-  } as any);
+
+      return throwError(() => err);
+    })
+  );
 };

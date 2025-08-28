@@ -5,6 +5,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { authInterceptor } from '../core/interceptors/auth.interceptor';
 import { errorInterceptor } from '../core/interceptors/error.interceptor';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +14,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
     withFetch(),
       withInterceptors([authInterceptor, errorInterceptor])
-    ),  
+    ),
+    provideToastr({
+      positionClass: 'toast-bottom-right',
+      timeOut: 3000,
+      closeButton: true,
+    })
   ]
 };

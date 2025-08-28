@@ -6,7 +6,6 @@ import { SKIP_AUTH } from '../http/skip-auth.context';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (req.context.get(SKIP_AUTH)) {
-    console.log("🚀 ~ authInterceptor ~ req.context:", req.context)
     return next(req);
   }
 
