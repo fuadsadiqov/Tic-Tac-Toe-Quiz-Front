@@ -9,7 +9,6 @@ export class AuthStore {
     private _session = signal<Session>({
         user: null,
         accessToken: null,
-        accessExp: null,
     });
 
     constructor() {
@@ -23,6 +22,6 @@ export class AuthStore {
 
     session = this._session.asReadonly();
     set(s: Partial<Session>) { this._session.update(x => ({ ...x, ...s })); }
-    clear() { this._session.set({ user: null, accessToken: null, accessExp: null }); }
+    clear() { this._session.set({ user: null, accessToken: null }); }
     logout() { this.clear(); location.assign('/admin/login'); }
 }

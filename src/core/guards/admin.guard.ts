@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthStore } from '../auth/auth.store';
+import { Role } from '../auth/auth.types';
 
 export const AdminGuard: CanActivateFn = () => {
   const authStore = inject(AuthStore);
@@ -12,7 +13,7 @@ export const AdminGuard: CanActivateFn = () => {
   
   const user = session.user;
 
-  if (user && user.roles.includes("admin")) {
+  if (user && user.role == Role.Admin) {
     return true;
   }
 
