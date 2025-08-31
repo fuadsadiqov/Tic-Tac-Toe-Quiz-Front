@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Attribute, AttributeService } from '../../../../../services/attribute.service';
 import { Character } from '../../../../../services/character.service';
 import { CommonModule } from '@angular/common';
+import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-character-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgSelectModule],
   templateUrl: './character-form.component.html',
 })
 export class CharacterFormComponent implements OnInit {

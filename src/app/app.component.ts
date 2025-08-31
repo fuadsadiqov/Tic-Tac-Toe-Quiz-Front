@@ -3,13 +3,15 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthStore } from '../core/auth/auth.store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
-    ToastrModule
+    ToastrModule,
+    NgSelectModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

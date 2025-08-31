@@ -6,7 +6,11 @@ import { Attribute } from '../../../../../services/attribute.service';
 @Component({
   selector: 'app-attribute-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    FormsModule, 
+    ReactiveFormsModule, 
+    CommonModule,
+  ],
   templateUrl: './attribute-form.component.html'
 })
 export class AttributeFormComponent implements OnInit {
