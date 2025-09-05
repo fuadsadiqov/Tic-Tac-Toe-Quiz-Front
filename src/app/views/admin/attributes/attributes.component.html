@@ -10,17 +10,35 @@
     </button>
   </div>
 
+  <app-pagination
+    [total]="pagination.total"
+    [page]="pagination.page"
+    [limit]="pagination.limit"
+    (pageChange)="onPageChange($event)"
+    (searchChange)="onSearchChange($event)"
+    >
+  </app-pagination>
+
   <div class="overflow-hidden rounded-xl shadow-lg border border-purple-500/30">
     <table class="w-full">
       <thead class="bg-gray-800/60 text-purple-300">
         <tr>
           <th class="p-3 text-left">Title</th>
+          <th class="p-3 text-left">Persons</th>
           <th class="p-3 text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let attr of attributes" class="border-t border-gray-700/60 hover:bg-gray-800/40 transition">
           <td class="p-3">{{ attr.title }}</td>
+          <td class="p-3">
+            <button
+              (click)="showPersons(attr)"
+              class="text-purple-400 cursor-pointer hover:underline"
+            >
+              {{ attr.personCount }}
+            </button>
+          </td>
           <td class="p-3 flex justify-center gap-3">
             <button (click)="editAttribute(attr)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-lg shadow">Edit</button>
             <button (click)="deleteAttribute(attr)" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg shadow">Delete</button>
@@ -28,6 +46,25 @@
         </tr>
       </tbody>
     </table>
+
+    <div *ngIf="selectedAttribute" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+      <div class="bg-gray-900 text-gray-200 rounded-xl p-6 w-96 shadow-lg relative">
+        <h2 class="text-lg font-semibold mb-4">
+          Persons for "{{ selectedAttribute.title }}"
+        </h2>
+
+        <ul class="list-disc list-inside space-y-1 max-h-60 overflow-y-auto">
+          <li *ngFor="let name of selectedAttribute.personNames">{{ name }}</li>
+        </ul>
+
+        <button
+          (click)="closeShowPersonModal()"
+          class="absolute top-2 right-2 text-gray-400 hover:text-white"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 

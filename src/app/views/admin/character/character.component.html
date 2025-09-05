@@ -7,6 +7,15 @@
     </button>
   </div>
 
+  <app-pagination
+    [total]="pagination.total"
+    [page]="pagination.page"
+    [limit]="pagination.limit"
+    (pageChange)="onPageChange($event)"
+    (searchChange)="onSearchChange($event)"
+    >
+  </app-pagination>
+
   <div class="overflow-hidden rounded-xl shadow-lg border border-purple-500/30">
     <table class="w-full">
       <thead class="bg-gray-800/60 text-purple-300">

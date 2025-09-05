@@ -16,6 +16,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           toastr.error('Server is unreachable. Please try again later.');
         } else if (err.status === 401) {
           toastr.warning(err.error?.message);
+          if (!err.error?.message('INVALID_USERNAME_PASSWORD')) {
+            store.logout();
+          }
         } else if (err.status === 403) {
           toastr.error('You do not have permission for this action.');
         } else if (err.status >= 500) {

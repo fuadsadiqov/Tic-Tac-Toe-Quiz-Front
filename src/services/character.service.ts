@@ -3,6 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Attribute } from './attribute.service';
 import { environment } from '../environments/environment';
+import { PaginatedResult } from '../core/interfaces/pagination';
+
+export interface Character {
+  id: number;
+  name: string;
+  categoryId: number;
+  attributes: Attribute[];
+}
 
 export interface Character {
   id: number;
@@ -16,11 +24,15 @@ export class CharacterService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl + 'person';
 
-  getAll(categoryId: string): Observable<Character[]> {
-    return this.http.get<Character[]>(`${this.baseUrl}/all/${categoryId}`);
+  getAll(categoryId: string, query: { page?: number; limit?: number; search?: string }): Observable<PaginatedResult<Character>> {
+    return this.http.get<PaginatedResult<Character>>(`${this.baseUrl}/all/${categoryId}`, { params: query });
   }
 
-  getOne(id: number): Observable<Character> {
+  getAllForSelect(categoryId: string){
+    return this.http.get<PaginatedResult<Character>>(`${this.baseUrl}/all/${categoryId}`, { params: query });
+  }
+
+  getOne(id: string): Observable<Character> {
     return this.http.get<Character>(`${this.baseUrl}/${id}`);
   }
 

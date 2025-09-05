@@ -4,11 +4,12 @@ import { Attribute, AttributeService } from '../../../../services/attribute.serv
 import { ConfirmDialogService } from '../../../components/confirm-dialog/confirm-dialog.service';
 import { AttributeFormComponent } from './attribute-form/attribute-form.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { PaginationComponent } from '../../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-attributes',
   standalone: true,
-  imports: [CommonModule, AttributeFormComponent, RouterModule],
+  imports: [CommonModule, AttributeFormComponent, RouterModule, PaginationComponent],
   templateUrl: './attributes.component.html',
 })
 export class AttributesComponent {
@@ -22,6 +23,11 @@ export class AttributesComponent {
   editingAttribute: Attribute | null = null;
   isModalOpen = false;
 
+  pagination = { page: 1, limit: 10, total: 0 };
+  searchTerm = '';
+
+  selectedAttribute: any = null;
+
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.categoryId = params.get('id') || '';
@@ -31,7 +37,17 @@ export class AttributesComponent {
 
   loadAttributes() {
     if (!this.categoryId) return;
-    this.attributeService.getAll(this.categoryId).subscribe(res => this.attributes = res);
+    this.attributeService.getAll(
+      this.categoryId,
+      {
+        page: this.pagination.page,
+        limit: this.pagination.limit,
+        search: this.searchTerm,
+      }
+    ).subscribe(res => {
+      this.attributes = res.data;
+      this.pagination = { page: Number(res.page), limit: Number(res.limit), total: Number(res.total) };
+    });
   }
 
   addAttribute() {
@@ -69,4 +85,24 @@ export class AttributesComponent {
   closeModal() {
     this.isModalOpen = false;
   }
+
+  onPageChange(newPage: number) {
+    this.pagination.page = newPage;
+    this.loadAttributes();
+  }
+
+  onSearchChange(value: string) {
+    this.searchTerm = value;
+    this.pagination.page = 1;
+    this.loadAttributes();
+  }
+
+  showPersons(attr: any) {
+    this.selectedAttribute = attr;
+  }
+
+  closeShowPersonModal() {
+    this.selectedAttribute = null;
+  }
+
 }

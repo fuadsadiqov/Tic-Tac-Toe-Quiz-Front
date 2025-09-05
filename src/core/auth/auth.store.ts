@@ -23,5 +23,5 @@ export class AuthStore {
     session = this._session.asReadonly();
     set(s: Partial<Session>) { this._session.update(x => ({ ...x, ...s })); }
     clear() { this._session.set({ user: null, accessToken: null }); }
-    logout() { this.clear(); location.assign('/admin/login'); }
+    logout() { this.clear(); location.assign('/auth/login'); }
 }

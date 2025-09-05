@@ -10,7 +10,7 @@ import { HomeComponent } from './views/client/home/home.component';
 export const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
+        component: ClientComponent,
         children: [
             ...clientRoutes
         ],

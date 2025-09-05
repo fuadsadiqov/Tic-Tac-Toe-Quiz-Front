@@ -1,1 +1,13 @@
-<p>home works!</p>
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+  <button 
+    (click)="createGame()" 
+    [disabled]="loading"
+    class="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl shadow-md transition">
+    {{ loading ? 'Creating...' : 'Play a Game' }}
+  </button>
+
+  <div *ngIf="game" class="mt-6 p-4 bg-gray-800 rounded-xl w-96">
+    <h2 class="text-xl font-bold mb-2">Game Created 🎮</h2>
+      
+  </div>
+</div>
