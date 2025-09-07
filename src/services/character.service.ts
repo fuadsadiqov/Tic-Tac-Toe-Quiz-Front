@@ -9,13 +9,9 @@ export interface Character {
   id: number;
   name: string;
   categoryId: number;
-  attributes: Attribute[];
 }
 
-export interface Character {
-  id: number;
-  name: string;
-  categoryId: number;
+export interface CharacterAttributes extends Character{
   attributes: Attribute[];
 }
 
@@ -24,12 +20,8 @@ export class CharacterService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl + 'person';
 
-  getAll(categoryId: string, query: { page?: number; limit?: number; search?: string }): Observable<PaginatedResult<Character>> {
-    return this.http.get<PaginatedResult<Character>>(`${this.baseUrl}/all/${categoryId}`, { params: query });
-  }
-
-  getAllForSelect(categoryId: string){
-    return this.http.get<PaginatedResult<Character>>(`${this.baseUrl}/all/${categoryId}`, { params: query });
+  getAll(categoryId: string, query: { page?: number; limit?: number; search?: string }): Observable<PaginatedResult<CharacterAttributes>> {
+    return this.http.get<PaginatedResult<CharacterAttributes>>(`${this.baseUrl}/all/${categoryId}`, { params: query });
   }
 
   getOne(id: string): Observable<Character> {
@@ -46,5 +38,11 @@ export class CharacterService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  search(categoryId: string, term: string) {
+    return this.http.get<Character[]>(this.baseUrl + '/search', {
+      params: { categoryId, term }
+    });
   }
 }

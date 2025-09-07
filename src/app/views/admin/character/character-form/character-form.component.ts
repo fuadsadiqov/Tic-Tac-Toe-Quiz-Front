@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Attribute, AttributeService } from '../../../../../services/attribute.service';
-import { Character } from '../../../../../services/character.service';
+import { CharacterAttributes } from '../../../../../services/character.service';
 import { CommonModule } from '@angular/common';
 import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
 import { ToastrService } from 'ngx-toastr';
@@ -13,9 +13,9 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './character-form.component.html',
 })
 export class CharacterFormComponent implements OnInit {
-  @Input() character: Character | null = null;
+  @Input() character: CharacterAttributes | null = null;
   @Input() categoryId!: string;
-  @Output() save = new EventEmitter<Partial<Character>>();
+  @Output() save = new EventEmitter<Partial<CharacterAttributes>>();
   @Output() cancel = new EventEmitter<void>();
 
   form!: FormGroup;

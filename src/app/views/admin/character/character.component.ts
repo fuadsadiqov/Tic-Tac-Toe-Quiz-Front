@@ -1,7 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacterFormComponent } from './character-form/character-form.component';
-import { CharacterService, Character } from '../../../../services/character.service';
+import { CharacterService, CharacterAttributes } from '../../../../services/character.service';
 import { ConfirmDialogService } from '../../../components/confirm-dialog/confirm-dialog.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -22,8 +22,8 @@ export class CharactersComponent {
   private route = inject(ActivatedRoute);
   private toast = inject(ToastrService);
 
-  characters: Character[] = [];
-  editingCharacter: Character | null = null;
+  characters: CharacterAttributes[] = [];
+  editingCharacter: CharacterAttributes | null = null;
   isModalOpen = false;
 
   pagination = { page: 1, limit: 10, total: 0 };
@@ -53,18 +53,18 @@ export class CharactersComponent {
     this.isModalOpen = true;
   }
 
-  editCharacter(c: Character) {
+  editCharacter(c: CharacterAttributes) {
     this.editingCharacter = c;
     this.isModalOpen = true;
   }
 
-  deleteCharacter(c: Character) {
+  deleteCharacter(c: CharacterAttributes) {
     this.confirm.confirm({ message: `Delete character "${c.name}"?` }).then(ok => {
       if (ok) this.service.delete(c.id).subscribe(() => this.loadCharacters());
     });
   }
 
-  handleSave(c: Partial<Character>) {
+  handleSave(c: Partial<CharacterAttributes>) {
     if (this.editingCharacter) {
       this.service.update(this.editingCharacter.id, c).subscribe(() => {
         this.isModalOpen = false;

@@ -34,7 +34,7 @@
 <!-- Modal -->
 <div
   *ngIf="showModal"
-  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50"
+  class="fixed inset-0 flex items-center justify-center bg-black/30 z-50"
 >
   <div class="bg-gray-900 rounded-xl shadow-xl p-6 w-96 text-white">
     <h3 class="text-xl font-semibold mb-4">
@@ -48,8 +48,11 @@
       [items]="players"
       bindLabel="name"
       bindValue="id"
-      placeholder="Select player"
+      placeholder="Type to search player..."
       [(ngModel)]="selectedPlayer"
+      [typeahead]="playerSearch$"
+      [loading]="false"
+      [minTermLength]="2"
       class="w-full"
     >
     </ng-select>
@@ -63,7 +66,7 @@
       </button>
       <button
         class="px-4 py-2 bg-purple-600 rounded hover:bg-purple-500"
-        (click)="confirmSelection()"
+        (click)="confirmSelection(selectedPlayer)"
       >
         Confirm
       </button>
