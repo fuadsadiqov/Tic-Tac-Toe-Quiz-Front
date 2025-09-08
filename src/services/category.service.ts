@@ -13,8 +13,8 @@ export class CategoryService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl + 'category';
 
-  getAll(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.baseUrl + '/all');
+  getAll({ includeAttributes }: { includeAttributes: boolean }): Observable<Category[]> {
+    return this.http.get<Category[]>(this.baseUrl + '/all', { params: { includeAttributes }});
   }
 
   add(category: Partial<Category>): Observable<Category> {

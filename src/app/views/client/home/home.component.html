@@ -1,13 +1,73 @@
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-  <button 
-    (click)="createGame()" 
-    [disabled]="loading"
-    class="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl shadow-md transition">
-    {{ loading ? 'Creating...' : 'Play a Game' }}
-  </button>
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-6">
+  <h1 class="text-4xl font-bold mb-8 text-purple-400">🎮 TicTacQuiz</h1>
 
-  <div *ngIf="game" class="mt-6 p-4 bg-gray-800 rounded-xl w-96">
-    <h2 class="text-xl font-bold mb-2">Game Created 🎮</h2>
-      
+  <div class="grid gap-6 w-full max-w-md">
+    <!-- Join Game Input -->
+    <div class="mt-4">
+      <label class="block mb-1 text-gray-300">Join Game ID:</label>
+      <input
+        type="text"
+        [(ngModel)]="gameIdInput"
+        placeholder="Enter Game ID to join"
+        class="w-full px-6 py-4 bg-gray-700 hover:bg-gray-600 rounded-2xl shadow-lg text-xl placeholder:text-gray-400 font-semibold"
+      />
+    </div>
+    <!-- Create Game -->
+    <button
+      (click)="onCreateGameClick()"
+      class="w-full px-6 py-4 bg-purple-600 hover:bg-purple-500 rounded-2xl shadow-lg text-xl font-semibold"
+    >
+      ➕ Create Game
+    </button>
+
+    <!-- Play Local -->
+    <button
+      (click)="onPlayLocalClick()"
+      class="w-full px-6 py-4 bg-gray-700 hover:bg-gray-600 rounded-2xl shadow-lg text-xl font-semibold"
+    >
+      🕹 Play Local
+    </button>
+  </div>
+</div>
+
+<!-- Category Modal -->
+<div *ngIf="showCategoryModal" class="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
+  <div class="bg-gray-900 rounded-xl shadow-xl p-6 w-96 text-white flex flex-col gap-4">
+    <h3 class="text-xl font-semibold mb-2">Select Category</h3>
+    <select
+      [(ngModel)]="selectedCategoryId"
+      class="px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+    >
+      <option value="" disabled selected>Select Category</option>
+      <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.title }}</option>
+    </select>
+
+    <div class="flex justify-end gap-2 mt-2">
+      <button class="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600" (click)="showCategoryModal = false">
+        Cancel
+      </button>
+      <button class="px-4 py-2 bg-purple-600 rounded hover:bg-purple-500" [disabled]="!selectedCategoryId" (click)="confirmCategorySelection()">
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Play Local Modal (Player Names) -->
+<div *ngIf="showLocalModal" class="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
+  <div class="bg-gray-900 rounded-xl shadow-xl p-6 w-96 text-white flex flex-col gap-4">
+    <h3 class="text-xl font-semibold mb-2">Local Game Players</h3>
+    <input type="text" [(ngModel)]="localPlayerX" placeholder="Player X Name (optional)"
+           class="px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+    <input type="text" [(ngModel)]="localPlayerO" placeholder="Player O Name (optional)"
+           class="px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+    <div class="flex justify-end gap-2 mt-2">
+      <button class="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600" (click)="showLocalModal = false">
+        Cancel
+      </button>
+      <button class="px-4 py-2 bg-purple-600 rounded hover:bg-purple-500" (click)="startLocalGame()">
+        Play a game
+      </button>
+    </div>
   </div>
 </div>

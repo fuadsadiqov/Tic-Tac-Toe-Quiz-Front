@@ -24,7 +24,7 @@ private confirmService = inject(ConfirmDialogService);
   }
 
   load() {
-    this.categoryService.getAll().subscribe(res => this.categories = res);
+    this.categoryService.getAll({ includeAttributes: true }).subscribe(res => this.categories = res);
   }
 
   addCategory() {
