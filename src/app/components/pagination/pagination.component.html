@@ -17,16 +17,20 @@
 
     <ng-container>
     @for (p of pages; track $index) {
-        <button
-          (click)="changePage(p)"
-          [class.bg-purple-600]="page === p"
-          [class.text-white]="page === p"
-          class="px-3 py-1 mx-1 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-600"
-        >
-          {{ p }}
-        </button>
-      }
-    </ng-container>
+      <button
+        *ngIf="p !== '...'; else dots"
+        (click)="changePage(p)"
+        [class.bg-purple-600]="page === p"
+        [class.text-white]="page === p"
+        class="px-3 py-1 mx-1 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-600"
+      >
+        {{ p }}
+      </button>
+      <ng-template #dots>
+        <span class="px-3 py-1 mx-1 text-gray-500">...</span>
+      </ng-template>
+    }
+  </ng-container>
 
     <!-- Next -->
     <button
